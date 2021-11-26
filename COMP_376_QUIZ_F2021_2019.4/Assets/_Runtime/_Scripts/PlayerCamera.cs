@@ -1,92 +1,58 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
 
-public class PlayerCamera : MonoBehaviour
-{
-    [SerializeField] private GameObject target;
-    [SerializeField, Min(1)] private float sensitivity = 100;
+using UnityEngine;
 
-    private float mouseX, mouseY;
+// ------------------------------------------------------------------------------ 
+// Quiz 
+// Written by: Zisen Ling & 40020293
+// For COMP 376 – Fall 2021 
+// ----------------------------------------------------------------------------- 
 
-    private float distanceToTarget;
+// Filmstorm - Free 3rd Person Camera Setup & Camera Collision Tutorial
+// https://www.youtube.com/watch?v=LbDQHv9z-F0
+// works pretty good
 
-    public float smoothing = 5;
+public class PlayerCamera: MonoBehaviour
+{ public float CameraMoveSpeed = 120.0f;
+    public GameObject CameraFollowObj;
+    public float clampAngleMin = -20;
+    public float clampAngleMax = 60;
+    public float inputSensitivity = 150;
+    public float mouseX;
+    public float mouseY;
 
-    private Vector3 cameraDirection;
-    private Vector2 cameraDistanceMinMax = new Vector2(1.0f, 5f);
-    public Transform cam;
+    private float rotY = 0;
+    private float rotX = 0;
 
-
-    private void Awake()
-    {
+    private void Start(){
+        Vector3 rot = transform.localRotation.eulerAngles;
+        rotY = rot.y;
+        rotX = rot.x;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-
-        if (target != null)
-        {
-            cameraDirection = (transform.position - target.transform.position).normalized;
-            distanceToTarget = cameraDistanceMinMax.y;
-
-            Vector3 xzDirection = Vector3.ProjectOnPlane(cameraDirection, Vector3.up);
-            mouseY = Vector3.Angle(cameraDirection, xzDirection);
-
-
-            //Vector3 offset = transform.position - target.transform.position;
-            //distanceToTarget = offset.magnitude;
-
-            //Vector3 xzDirection = Vector3.ProjectOnPlane(offset, Vector3.up);
-            //mouseY = Vector3.Angle(offset, xzDirection);
-        }
-        
     }
 
-    //private void Update()
-    //{
-    //    if (target != null)
-    //    {
-    //        mouseX += Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime;
-    //        mouseY -= Input.GetAxis("Mouse Y") * sensitivity * Time.deltaTime;
-    //        mouseY = Mathf.Clamp(mouseY, 20, 70);
-    //    }
-    //    CheckCameraOcclusionAndCollision(cam);
-    //    if (target != null)
-    //    {
-    //        Quaternion desiredRotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(mouseY, mouseX, 0), smoothing * Time.deltaTime);
+    private void Update(){
+        mouseX = Input.GetAxis("Mouse X");
+        mouseY = Input.GetAxis("Mouse Y");
 
-    //        transform.position = target.transform.position + desiredRotation * -Vector3.forward * distanceToTarget;
-    //        transform.LookAt(target.transform);
-    //    }
-    //}
+        rotY += mouseX * inputSensitivity * Time.deltaTime;
+        rotX -= mouseY * inputSensitivity * Time.deltaTime;
+        rotX = Mathf.Clamp(rotX, clampAngleMin, clampAngleMax);
 
-    private void LateUpdate()
-    {
-        //CheckCameraOcclusionAndCollision(cam);
-        if (target != null)
-        {
-            mouseX += Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime;
-            mouseY -= Input.GetAxis("Mouse Y") * sensitivity * Time.deltaTime;
-            mouseY = Mathf.Clamp(mouseY, 20, 70);
-        }
-        if (target != null)
-        {
-            Quaternion desiredRotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(mouseY, mouseX, 0), smoothing * Time.deltaTime);
-
-            transform.position = target.transform.position + desiredRotation * -Vector3.forward * distanceToTarget;
-            transform.LookAt(target.transform);
-        }
+        Quaternion localRotation = Quaternion.Euler(rotX, rotY, 0.0f);
+        transform.rotation = localRotation;
     }
 
-    public void CheckCameraOcclusionAndCollision(Transform _cam)
-    {
-        Vector3 desiredCameraPosition = transform.TransformPoint(cameraDirection * cameraDistanceMinMax.y);
-        RaycastHit hit;
-        if (Physics.Linecast(transform.position, desiredCameraPosition, out hit))
-        {
-            distanceToTarget = Mathf.Clamp(hit.distance, 0.1f, 10.0f);
-        }
-        else
-        {
-            distanceToTarget = 10.0f;
-        }
-        _cam.localPosition = cameraDirection * distanceToTarget;
+    private void LateUpdate(){
+        CameraUpdater();
     }
+
+    private void CameraUpdater(){
+        Transform target = CameraFollowObj.transform;
+        float step = CameraMoveSpeed * Time.deltaTime;
+        transform.position = Vector3.MoveTowards(transform.position, target.position, step);
+    }
+
 }

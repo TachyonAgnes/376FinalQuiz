@@ -3,6 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+
+// ------------------------------------------------------------------------------ 
+// Quiz 
+// Written by: Zisen Ling & 40020293
+// For COMP 376 – Fall 2021 
+// ----------------------------------------------------------------------------- 
+
 public class BobombTrace : MonoBehaviour
 {
     [SerializeField] public GameObject player;

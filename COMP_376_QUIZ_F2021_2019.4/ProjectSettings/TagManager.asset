@@ -12,6 +12,13 @@ TagManager:
   - Thwomp
   - After Death
   - Bobomb
+  - mud
+  - walkable
+  - water
+  - Flag
+  - Win
+  - Boo
+  - BlueCoin
   layers:
   - Default
   - TransparentFX

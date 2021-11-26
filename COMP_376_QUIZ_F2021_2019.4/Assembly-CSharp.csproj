@@ -54,12 +54,20 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Assets\_Runtime\_Scripts\BobombTrace.cs" />
+    <Compile Include="Assets\_Runtime\_Scripts\BooTrace.cs" />
+    <Compile Include="Assets\_Runtime\_Scripts\CameraCollision.cs" />
     <Compile Include="Assets\_Runtime\_Scripts\ColliderOwner.cs" />
     <Compile Include="Assets\_Runtime\_Scripts\HealthBar.cs" />
     <Compile Include="Assets\_Runtime\_Scripts\PlayerCamera.cs" />
-    <Compile Include="Assets\_Runtime\_Scripts\PlayerCameraWithOcclusion.cs" />
     <Compile Include="Assets\_Runtime\_Scripts\PlayerMovement.cs" />
+    <Compile Include="Assets\_Runtime\_Scripts\dialog.cs" />
+    <Compile Include="Assets\_Runtime\_Scripts\myCameraCollection\CameraCollision_1.cs" />
+    <Compile Include="Assets\_Runtime\_Scripts\myCameraCollection\PlayerCamera2.cs" />
+    <Compile Include="Assets\_Runtime\_Scripts\myCameraCollection\PlayerCameraWithOcclusion.cs" />
+    <Compile Include="Assets\_Runtime\_Scripts\myCameraCollection\PlayerCameraWithOcclusion2.cs" />
+    <Compile Include="Assets\_Runtime\_Scripts\particalRun.cs" />
     <Compile Include="Assets\_Runtime\_Scripts\thwompMovement.cs" />
+    <Compile Include="Assets\_Runtime\_Scripts\thwompRotate.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
