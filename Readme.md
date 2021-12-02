@@ -1,4 +1,6 @@
 # Comp376_Final_Quiz
+> This work was done for the comp 376 final quiz
+
 * Student Name: ZisenLing
 * Student Id: 40020293
 
